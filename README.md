@@ -9,9 +9,11 @@ npm install node-waad
 Get an access token and query the graph
 
 ```js
-waadAuth.auth('tenantid', 'spn-appprincipal', 'symmetric-key-base64', function(err, token) {
+var waad = require('node-waad');
+
+waad.auth.getAccessToken('tenantid', 'spn-appprincipal', 'symmetric-key-base64', function(err, token) {
 	// query the graph
-	waad.getUserByEmail(token, 'matias@auth10dev.onmicrosoft.com', function(err, user) {
+	waad.graph.getUserByEmail(token, 'matias@auth10dev.onmicrosoft.com', function(err, user) {
 		// get user properties (user.DisplayName, user.Mail, etc.)
 	});
 });
