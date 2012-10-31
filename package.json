@@ -1,0 +1,24 @@
+{
+  "name": "node-waad",
+  "version": "0.1.0",
+  "description": "query windows azure active directory",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -t 10000"
+  },
+  "repository": "",
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "keywords": [
+    "waad",
+    "azure"
+  ],
+  "author": "Matias Woloski",
+  "license": "MIT",
+  "dependencies": {
+    "request": "~2.11.4",
+    "jwt-simple": "~0.1.0",
+    "moment": "~1.7.2"
+  }
+}
