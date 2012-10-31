@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha -t 10000"
   },
-  "repository": "",
+  "repository": "https://github.com/auth10/node-waad",
   "devDependencies": {
     "mocha": "*"
   },

@@ -57,3 +57,6 @@ Add-MsolRoleMember -RoleMemberType ServicePrincipal -RoleName "Service Support A
 ```powershell
 (get-msolcompanyinformation).objectId
 ```
+## License
+
+MIT - auth10
