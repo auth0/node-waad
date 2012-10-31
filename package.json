@@ -1,8 +1,8 @@
 {
   "name": "node-waad",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "query windows azure active directory",
-  "main": "index.js",
+  "main": "./lib",
   "scripts": {
     "test": "mocha -t 10000"
   },

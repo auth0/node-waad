@@ -1,6 +1,8 @@
 Query Windows Azure Active Directory graph
 
-`npm install node-waad`
+```
+npm install node-waad
+```
 
 ## General usage
 
@@ -21,13 +23,13 @@ This is the bare minimum I needed for my purpose.
 
 Get user information by email
 
-```
+```js
 getUserByEmail(token, 'matias@auth10dev.onmicrosoft.com', ...)
 ```
 
 Get groups user belong to by email
 
-```
+```js
 getGroupsForUserByEmail(token, 'matias@auth10dev.onmicrosoft.com', ...)
 ```
 

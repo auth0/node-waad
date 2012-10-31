@@ -1,12 +1,12 @@
 var assert = require('assert')
-	, waadAuth = require("../lib/auth")
+	, auth = require("../lib/auth")
 	, waad = require("../lib/waad")
 	, config = require('./config');
 
 describe('query graph', function () {
 	var access_token;
 	before(function(done) {
-    	waadAuth.auth(config.TENANTID, config.APPPRINCIPALID, config.SYMMETRICKEY, function(err, token) {
+    	auth.getAccessToken(config.TENANTID, config.APPPRINCIPALID, config.SYMMETRICKEY, function(err, token) {
     		access_token = token;
     		done(); 
     	});
