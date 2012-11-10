@@ -35,3 +35,16 @@ describe('login to waad', function () {
     	});
     });
 });
+
+describe('login to waad with clientid and clientSecret', function () {
+    it('should obtain an access token', function (done) {
+        auth.getAccessTokenWithClientCredentials(config.TENANTDOMAIN, config.APPDOMAIN, config.CLIENTID, config.CLIENTSECRET, function(err, token) {
+            if (err) {
+                console.log(err);
+            }
+
+            assert.notEqual(null, token);
+            done();
+        });
+    });
+});
