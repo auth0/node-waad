@@ -55,7 +55,7 @@ describe('query graph using token obtained with client credentials', function ()
 	before(function(done) {
         auth.getAccessTokenWithClientCredentials(config.TENANTDOMAIN, config.APPDOMAIN, config.CLIENTID, config.CLIENTSECRET, function(err, token) {
     		access_token2 = token;
-    		done(); 
+    		done();
     	});
 	});
 
@@ -88,6 +88,18 @@ describe('query graph using token obtained with client credentials', function ()
 			assert.notEqual(null, groups);
 			assert.equal('Test Group', groups[0].DisplayName);
 			assert.equal('Company Administrator', groups[1].DisplayName);
+			done();
+		});
+	});
+
+	it('should get user with groups', function (done) {
+		waad.getUserByEmail(access_token2, config.TENANTDOMAIN, 'matias@thesuperstore.onmicrosoft.com', true, function(err, user) {
+			assert.notEqual(null, user);
+			assert.equal('matias@thesuperstore.onmicrosoft.com', user.Mail);
+			assert.equal('Matias Woloski', user.DisplayName);
+			assert.notEqual(null, user.groups);
+			assert.equal('Test Group', user.groups[0].DisplayName);
+			assert.equal('Company Administrator', user.groups[1].DisplayName);
 			done();
 		});
 	});
