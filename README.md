@@ -15,10 +15,10 @@ var Waad = require('node-waad');
 var waad = new Waad(); // this can take fiddler:true if you want to proxy through fiddler
 
 waad.auth.getAccessToken('auth10dev.onmicrosoft.com', 'spn-appprincipal', 'symmetric-key-base64', function(err, token) {
-	// query the graph
-	waad.graph.getUserByEmail(token, 'auth10dev.onmicrosoft.com', 'matias@auth10dev.onmicrosoft.com', function(err, user) {
-		// get user properties (user.DisplayName, user.Mail, etc.)
-	});
+    // query the graph
+    waad.graph.getUserByEmail(token, 'auth10dev.onmicrosoft.com', 'matias@auth10dev.onmicrosoft.com', function(err, user) {
+        // get user properties (user.DisplayName, user.Mail, etc.)
+    });
 });
 ```
 
@@ -29,28 +29,45 @@ var Waad = require('node-waad');
 var waad = new Waad(); // this can take fiddler:true if you want to proxy through fiddler
 
 waad.auth.getAccessToken('auth10dev.onmicrosoft.com', 'myapp.com', 'client-id', 'client-secret', function(err, token) {
-	// query the graph
-	waad.graph.getUserByEmail(token, 'auth10dev.onmicrosoft.com', 'matias@auth10dev.onmicrosoft.com', function(err, user) {
-		// get user properties (user.DisplayName, user.Mail, etc.)
-	});
+    // query the graph
+    waad.graph.getUserByEmail(token, 'auth10dev.onmicrosoft.com', 'matias@auth10dev.onmicrosoft.com', function(err, user) {
+        // get user properties (user.DisplayName, user.Mail, etc.)
+    });
 });
 ```
 
-## Coverage
+## Graph methods
 
-This is the bare minimum I needed for my purpose. 
+### getUsers(accessToken, tenant, [includeGroups], callback)
 
-Get user information by email
+Fetch a list of all users. Parameters:
 
-```js
-getUserByEmail(token, 'auth10dev.onmicrosoft.com', 'matias@auth10dev.onmicrosoft.com', ...)
-```
+-   **accessToken** a valid access token that you can obtain with the two afore mentioned methods.
+-   **tenant** the id of the tenant. 
+-   **includeGroups** optional (default ```false```) when set to true it will fetch the groups for each user and load them in the ```user.groups``` property. **Warning** when includeGroups is true an additional request will be made for every user.
+-   **callback** is a function with two arguments ```err``` and ```users```.
 
-Get groups user belong to by email
 
-```js
-getGroupsForUserByEmail(token, 'auth10dev.onmicrosoft.com', 'matias@auth10dev.onmicrosoft.com', ...)
-```
+### getUserByEmail(accessToken, tenant, email, [includeGroups], callback)
+
+Fetch one user by its email address. Parameters:
+
+-   **accessToken** a valid access token that you can obtain with the two afore mentioned methods.
+-   **tenant** the id of the tenant.
+-   **email** the email address of the requested user. 
+-   **includeGroups** optional (default ```false```) when set to true it will fetch the groups for the user and load them in the ```user.groups``` property.
+-   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
+
+
+### getGroupsForUserByEmail(accessToken, tenant, email, callback)
+
+Fetch the list of groups the user belongs to. Parameters:
+
+-   **accessToken** a valid access token that you can obtain with the two afore mentioned methods.
+-   **tenant** the id of the tenant.
+-   **email** the email address of the requested user. 
+-   **callback** is a function with two arguments ```err``` and ```groups```.
+
 
 ## How to Get TenantId, SymmetricKey and AppPrincipalId
 
