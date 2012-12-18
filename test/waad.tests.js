@@ -68,6 +68,13 @@ describe('query graph using token obtained with client credentials', function ()
     });
   });
 
+  it('can get all users with user groups', function (done) {
+    waad.getUsers(access_token2, config.TENANTDOMAIN, true, function(err, users) {
+      assert.equal('Test Group', users[0].groups[0].DisplayName);
+      done();
+    });
+  });
+
   it('should get user by email', function (done) {
     waad.getUserByEmail(access_token2, config.TENANTDOMAIN, 'matias@thesuperstore.onmicrosoft.com', function(err, user) {
       assert.notEqual(null, user);
