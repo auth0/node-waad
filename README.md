@@ -58,6 +58,16 @@ Fetch one user by its email address. Parameters:
 -   **includeGroups** optional (default ```false```) when set to true it will fetch the groups for the user and load them in the ```user.groups``` property.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
+### getUserByProperty(accessToken, tenant, propertyName, propertyValue, [includeGroups], callback)
+
+Fetch one user by the specified property. Parameters:
+
+-   **accessToken** a valid access token that you can obtain with the two afore mentioned methods.
+-   **tenant** the id of the tenant.
+-   **propertyName** the name of the property. 
+-   **propertyValue** the value of the property (match is exact). 
+-   **includeGroups** optional (default ```false```) when set to true it will fetch the groups for the user and load them in the ```user.groups``` property.
+-   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
 ### getGroupsForUserByEmail(accessToken, tenant, email, callback)
 

@@ -112,4 +112,17 @@ describe('query graph using token obtained with client credentials', function ()
       done();
     });
   });
+
+  it('should get user with groups by arbitrary property', function (done) {
+    waad.getUserByProperty(access_token2, config.TENANTDOMAIN, 'UserPrincipalName', 'matias@thesuperstore.onmicrosoft.com', true, function(err, user) {
+      assert.notEqual(null, user);
+      assert.equal('matias@thesuperstore.onmicrosoft.com', user.UserPrincipalName);
+      assert.equal('matias@thesuperstore.onmicrosoft.com', user.Mail);
+      assert.equal('Matias Woloski', user.DisplayName);
+      assert.notEqual(null, user.groups);
+      assert.equal('Test Group', user.groups[0].DisplayName);
+      assert.equal('Company Administrator', user.groups[1].DisplayName);
+      done();
+    });
+  });
 });
