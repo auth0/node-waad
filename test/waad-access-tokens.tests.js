@@ -88,16 +88,17 @@ function allQueryTests () {
   });
 
   it('should get user with groups by arbitrary property', function (done) {
-    waad.getUserByProperty(access_token2, config.TENANTDOMAIN, 'UserPrincipalName', 'matias@thesuperstore.onmicrosoft.com', true, function(err, user) {
+    var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
+    waad.getUserByProperty('UserPrincipalName', this.mail, true, function(err, user) {
       assert.notEqual(null, user);
-      assert.equal('matias@thesuperstore.onmicrosoft.com', user.UserPrincipalName);
-      assert.equal('matias@thesuperstore.onmicrosoft.com', user.Mail);
+      assert.equal(this.mail, user.UserPrincipalName);
+      assert.equal(this.mail, user.Mail);
       assert.equal('Matias Woloski', user.DisplayName);
       assert.notEqual(null, user.groups);
       assert.equal('Test Group', user.groups[0].DisplayName);
       assert.equal('Company Administrator', user.groups[1].DisplayName);
       done();
-    });
+    }.bind(this));
   });
 
   // it('should return the skip token', function (done) {
