@@ -33,6 +33,21 @@ describe('query graph using token obtained with client credentials', function ()
   allQueryTests.bind(this)();
 });
 
+describe('query graph using token obtained with new WAAD release 2013-04', function () {
+  before(function(done) {
+    
+    this.tenant = config.WAAD_TENANTDOMAIN;
+    this.upn = 'matias@auth0waadtests.onmicrosoft.com';
+
+    auth.getAccessTokenWithClientCredentials2(config.WAAD_TENANTDOMAIN, config.WAAD_CLIENTID, config.WAAD_CLIENTSECRET, function(err, token) {
+      this.accessToken = token;
+      done();
+    }.bind(this));
+  });
+
+  allQueryTests.bind(this)();
+});
+
 function allQueryTests () {
   it('should get user by email', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
