@@ -7,7 +7,7 @@ var assert = require('assert')
 describe('query graph', function () {
   before(function(done) {
     this.tenant = config.TENANTID;
-    this.mail = 'matias@auth10dev.onmicrosoft.com';
+    this.upn = 'matias@auth10dev.onmicrosoft.com';
 
     auth.getAccessToken(config.TENANTID, config.APPPRINCIPALID, config.SYMMETRICKEY, function(err, token) {
       this.accessToken = token;
@@ -22,7 +22,7 @@ describe('query graph using token obtained with client credentials', function ()
   before(function(done) {
     
     this.tenant = config.TENANTDOMAIN;
-    this.mail = 'matias@thesuperstore.onmicrosoft.com';
+    this.upn = 'matias@thesuperstore.onmicrosoft.com';
 
     auth.getAccessTokenWithClientCredentials(config.TENANTDOMAIN, config.APPDOMAIN, config.CLIENTID, config.CLIENTSECRET, function(err, token) {
       this.accessToken = token;
@@ -36,10 +36,10 @@ describe('query graph using token obtained with client credentials', function ()
 function allQueryTests () {
   it('should get user by email', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
-    waad.getUserByEmail(this.mail, function(err, user) {
+    waad.getUserByProperty('UserPrincipalName', this.upn, function(err, user) {
       if(err) return done(err);  
       assert.notEqual(null, user);
-      assert.equal(this.mail, user.Mail);
+      assert.equal(this.upn, user.UserPrincipalName);
       assert.equal('Matias Woloski', user.DisplayName);
       done();
     }.bind(this));
@@ -47,7 +47,7 @@ function allQueryTests () {
 
   it('should return null if user not found', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
-    waad.getUserByEmail('nonexising@auth10dev.onmicrosoft.com', function(err, user) {
+    waad.getUserByProperty('UserPrincipalName', 'nonexising@auth10dev.onmicrosoft.com', function(err, user) {
       assert.equal(null, user);
       done();
     });
@@ -55,16 +55,16 @@ function allQueryTests () {
 
   it('should fail if accessToken is wrong', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: 'foobarbazbarbiz'});
-    waad.getUserByEmail('nonexising@auth10dev.onmicrosoft.com', function(err) {
+    waad.getUserByProperty('UserPrincipalName', 'nonexising@auth10dev.onmicrosoft.com', function(err) {
       assert.notEqual(null, err);
-      assert.equal('Authentication_Unauthorized', JSON.parse(err.message).error.code);
+      assert.equal('Authentication_MissingOrMalformed', JSON.parse(err.message).error.code);
       done();
     });
   });
 
-  it('should get groups by user', function (done) {
+  it('should get groups by user upn', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
-    waad.getGroupsForUserByEmail(this.mail, function(err, groups) {
+    waad.getGroupsForUserByProperty('UserPrincipalName', this.upn, function(err, groups) {
       assert.notEqual(null, groups);
       assert.equal('Test Group', groups[0].DisplayName);
       assert.equal('Company Administrator', groups[1].DisplayName);
@@ -78,7 +78,7 @@ function allQueryTests () {
       if (err) return done(err);
       assert.notEqual(null, users);
       var length = users.filter(function(u){
-        return u.Mail === this.mail;
+        return u.UserPrincipalName === this.upn;
       }.bind(this)).length;
 
       assert.equal(1, length);
@@ -89,10 +89,9 @@ function allQueryTests () {
 
   it('should get user with groups by arbitrary property', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
-    waad.getUserByProperty('UserPrincipalName', this.mail, true, function(err, user) {
+    waad.getUserByProperty('UserPrincipalName', this.upn, true, function(err, user) {
       assert.notEqual(null, user);
-      assert.equal(this.mail, user.UserPrincipalName);
-      assert.equal(this.mail, user.Mail);
+      assert.equal(this.upn, user.UserPrincipalName);
       assert.equal('Matias Woloski', user.DisplayName);
       assert.notEqual(null, user.groups);
       assert.equal('Test Group', user.groups[0].DisplayName);
