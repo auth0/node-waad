@@ -79,5 +79,13 @@ describe('query graph', function () {
     }.bind(this));
   });
 
+  it('should return all users when all is true', function(done){
+    var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
+    waad.getUsers({ top: 2, all: true }, function(err, users) {
+      if(err) return done(err);
+      users.length.should.eql(5);
+      done();
+    }.bind(this));
+  });
 
 });
