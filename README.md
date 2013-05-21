@@ -113,41 +113,11 @@ Fetch the list of groups the user belongs to. Parameters:
 -   **callback** is a function with two arguments ```err``` and ```groups```.
 
 
-## How to Get TenantId, SymmetricKey and AppPrincipalId
-
-### Creating the symmetric key and app principal id
-
-```powershell
-Import-Module MSOnline
-Import-Module MSOnlineExtended
-
-Connect-MsolService 
-
-$symmetricKey = "FStnXT1QON84B............5onYtzJ91Gg/JH/Jxiw" // generate one
-$appPrincipalId = "2829c758-2bef-....-a685-717089474509"
-
-$sp = New-MsolServicePrincipal -ServicePrincipalNames @("yourappname/some.host.com") -AppPrincipalId $appPrincipalId -DisplayName "yourappname" -Type Symmetric -Value $symmetricKey -Usage Verify -StartDate "1/1/2012" -EndDate "11/11/2014" 
-
-# assign permissions to that principal to query the graph (Service Support Administrator == read, Company Administrator == readwrite)
-Add-MsolRoleMember -RoleMemberType ServicePrincipal -RoleName "Service Support Administrator" -RoleMemberObjectId $sp.ObjectId
-```
-
-### Getting your tenantId
-
-```powershell
-(get-msolcompanyinformation).objectId
-```
-
 ## How to Get a client ID and client secret
 
-Go to <http://sellerdashboard.microsoft.com>
-
-Register as a company or individual
-Click on "add a new oauth client id"
-
-To give permissions to this client to query the graph of a tenant you can use the following URL to the tenant to give consent
-https://activedirectory.windowsazure.com/Consent/AuthorizeApplication.aspx?ApplicationId=<your-client-id>&RequestedPermissions=DirectoryReader
+Read this tutorial from Microsoft 
+[Adding, Updating, and Removing an App](http://msdn.microsoft.com/en-us/library/windowsazure/dn132599.aspx)
 
 ## License
 
-MIT - auth10
+MIT - Auth0
