@@ -6,23 +6,63 @@ npm install node-waad
 
 ## General usage
 
+> UPDATE: we updated the package to use the api-version 1.0. We implemented a couple of methods only. The version 0.5 has more things implemented (like paging).
+
+
 Get an access token and query the graph
 
-### Using a service principal created with PowerShell
+Alternatively you can call ```waad.getGraphClient``` in one function
 
-```js
+~~~javascript
 var waad = require('node-waad');
 
-waad.getAccessToken('auth10dev.onmicrosoft.com', 'spn-appprincipal', 'symmetric-key-base64', function(err, token) {
-  // this can take fiddler:true if you want to proxy through fiddler
-  var client = new waad.GraphClient({tenant: 'auth10dev.onmicrosoft.com', accessToken: token}); 
-
+waad.getGraphClient10('auth10dev.onmicrosoft.com', 'client-id', 'client-secret', function(err, client) {
   // query the graph
-  client.getUserByEmail('matias@auth10dev.onmicrosoft.com', function(err, user) {
-    // get user properties (user.DisplayName, user.Mail, etc.)
+  client.getUserByMail('matias@auth10dev.onmicrosoft.com', function(err, user) {
+    // get user properties (user.displayName, user.mail, etc.)
   });
 });
-```
+~~~
+
+## Graph methods (API v1.0)
+
+### getUsers([options], callback)
+
+Fetch a list of all users. 
+
+**Callback** is a function with two arguments ```err``` and ```users```. Users is an array of user objects (paging not implemented, use v0.5)
+
+### getUserByEmail(email, callback)
+
+Fetch one user by its email address. Parameters:
+
+-   **email** the email address of the requested user. 
+-   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
+
+### getUserByProperty(propertyName, propertyValue, callback)
+
+Fetch one user by the specified property. Parameters:
+
+-   **propertyName** the name of the property. 
+-   **propertyValue** the value of the property (match is exact). 
+-   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
+
+### getGroupsForUserByObjectIdOrUpn(objectIdOrUpn, callback)
+
+Fetch the list of groups the user belongs to. Parameters:
+
+-   **objectIdOrUpn** the `objectId` or `userPrincipalName` of the user. 
+-   **callback** is a function with two arguments ```err``` and ```groups```.
+
+
+## How to Get a client ID and client secret
+
+Read this tutorial from Microsoft 
+[Adding, Updating, and Removing an App](http://msdn.microsoft.com/en-us/library/windowsazure/dn132599.aspx)
+
+### API version 0.5
+
+Get an access token and query the graph
 
 Alternatively you can call ```waad.getGraphClient``` in one function
 
@@ -37,22 +77,6 @@ waad.getGraphClient('auth10dev.onmicrosoft.com', 'spn-appprincipal', 'symmetric-
 });
 ~~~
 
-
-### Using client_id and secret from sellerdashboard
-
-```js
-var waad = require('node-waad');
-
-waad.getAccessTokenWithClientCredentials('auth10dev.onmicrosoft.com', 'myapp.com', 'client-id', 'client-secret', function(err, token) {
-  
-  // this can take fiddler:true if you want to proxy through fiddler
-  var client = new waad.GraphClient({tenant: 'auth10dev.onmicrosoft.com', accessToken: token}); 
-
-  // query the graph
-  client.getUserByEmail('matias@auth10dev.onmicrosoft.com', function(err, user) {
-    // get user properties (user.DisplayName, user.Mail, etc.)
-  });
-});
 ```
 
 Or use ```getGraphClientWithClientCredentials```:
@@ -68,7 +92,7 @@ waad.getGraphClientWithClientCredentials('auth10dev.onmicrosoft.com', 'myapp.com
 });
 ```
 
-## Graph methods
+## Graph methods (API v0.5)
 
 ### getUsers([options], callback)
 
@@ -111,12 +135,6 @@ Fetch the list of groups the user belongs to. Parameters:
 
 -   **email** the email address of the requested user. 
 -   **callback** is a function with two arguments ```err``` and ```groups```.
-
-
-## How to Get a client ID and client secret
-
-Read this tutorial from Microsoft 
-[Adding, Updating, and Removing an App](http://msdn.microsoft.com/en-us/library/windowsazure/dn132599.aspx)
 
 ## License
 

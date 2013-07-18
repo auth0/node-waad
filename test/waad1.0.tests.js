@@ -20,7 +20,7 @@ describe('query graph api-version 1.0', function () {
 });
 
 function allQueryTests () {
-  it('should get user by email', function (done) {
+  it('should get user by upn', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
     waad.getUserByProperty('userPrincipalName', this.upn, function(err, user) {
       if(err) return done(err);  
@@ -84,7 +84,7 @@ function allQueryTests () {
   });
 
   it('should get user with groups by arbitrary property with type Edm.Guid', function (done) {
-    var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken, fiddler:true});
+    var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
     waad.getUserByProperty('objectId', "9f7e9788-8081-4450-8d60-3b835aa2b54b", function(err, user) {
       if (err) return done(err);
       assert.notEqual(null, user);
