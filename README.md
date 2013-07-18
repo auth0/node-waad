@@ -4,6 +4,8 @@ Query Windows Azure Active Directory graph
 npm install node-waad
 ```
 
+![](https://nodei.co/npm-dl/node-waad.png)
+
 ## General usage
 
 > UPDATE: we updated the package to use the api-version 1.0. We implemented a couple of methods only. The version 0.5 has more things implemented (like paging).
