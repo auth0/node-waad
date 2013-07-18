@@ -18,21 +18,6 @@ describe('query graph', function () {
   allQueryTests.bind(this)();
 });
 
-describe('query graph using token obtained with client credentials', function () {
-  before(function(done) {
-    
-    this.tenant = config.TENANTDOMAIN;
-    this.upn = 'matias@thesuperstore.onmicrosoft.com';
-
-    auth.getAccessTokenWithClientCredentials(config.TENANTDOMAIN, config.APPDOMAIN, config.CLIENTID, config.CLIENTSECRET, function(err, token) {
-      this.accessToken = token;
-      done();
-    }.bind(this));
-  });
-
-  allQueryTests.bind(this)();
-});
-
 describe('query graph using token obtained with new WAAD release 2013-04', function () {
   before(function(done) {
     
@@ -115,42 +100,4 @@ function allQueryTests () {
     }.bind(this));
   });
 
-  // it('should return the skip token', function (done) {
-  //   waad.getUsers(this.accessToken, config.TENANTDOMAIN, function(err, users) {
-  //     assert.notEqual(null, users);
-  //     assert.equal('matias@thesuperstore.onmicrosoft.com', users[0].Mail);
-  //     assert.equal('Matias Woloski', users[0].DisplayName);
-  //     done();
-  //   });
-  // });
-
-  // it('can get all users with user groups', function (done) {
-  //   waad.getUsers(this.accessToken, config.TENANTDOMAIN, true, function(err, users) {
-  //     assert.equal('Test Group', users[0].groups[0].DisplayName);
-  //     done();
-  //   });
-  // });
-
-  
-  //  * this test actually fail because $skip is not implemented in the odata endpoint
-  //  * Expression method 'Skip' is not currently supported.
-   
-  // it.skip('can get all users with skip option', function (done) {
-  //   waad.getUsers(this.accessToken, config.TENANTDOMAIN, {skip: 1}, function(err, users) {
-  //     if (err) return done(err);
-  //     assert.equal(0, users.length);
-  //     done();
-  //   });
-  // });
-
-  // /*
-  //  * Unsupported query expression. Query method sequence: (OrderBy)
-  //  */
-  // it.skip('can get all users sorted', function (done) {
-  //   waad.getUsers(this.accessToken, config.TENANTDOMAIN, {orderby: 'DisplayName'}, function(err, users) {
-  //     if (err) return done(err);
-  //     assert.equal(1, users.length);
-  //     done();
-  //   });
-  // });
 }
