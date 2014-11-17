@@ -52,8 +52,9 @@ function allQueryTests () {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
     waad.getGroupsForUserByObjectIdOrUpn(this.upn, function(err, groups) {
       assert.notEqual(null, groups);
-      assert.equal('Test Group', groups[0].displayName);
-      assert.equal('Company Administrator', groups[1].displayName);
+      ['Test Group', 'Company Administrator'].forEach(function (group) {
+        assert.equal(1, groups.filter(function(g){ return g.displayName === group; }).length, group);
+      });
       done();
     });
   });

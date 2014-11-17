@@ -66,8 +66,9 @@ function allQueryTests () {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
     waad.getGroupsForUserByProperty('UserPrincipalName', this.upn, function(err, groups) {
       assert.notEqual(null, groups);
-      assert.equal('Test Group', groups[0].DisplayName);
-      assert.equal('Company Administrator', groups[1].DisplayName);
+      ['Test Group', 'Company Administrator'].forEach(function (group) {
+        assert.equal(1, groups.filter(function(g){ return g.DisplayName === group; }).length, group);
+      });
       done();
     });
   });
@@ -94,8 +95,9 @@ function allQueryTests () {
       assert.equal(this.upn, user.UserPrincipalName);
       assert.equal('Matias Woloski', user.DisplayName);
       assert.notEqual(null, user.groups);
-      assert.equal('Test Group', user.groups[0].DisplayName);
-      assert.equal('Company Administrator', user.groups[1].DisplayName);
+      ['Test Group', 'Company Administrator'].forEach(function (group) {
+        assert.equal(1, user.groups.filter(function(g){ return g.DisplayName === group; }).length, group);
+      });
       done();
     }.bind(this));
   });
