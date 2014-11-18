@@ -23,10 +23,11 @@ function allQueryTests () {
   it('should get user by upn', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
     waad.getUserByProperty('userPrincipalName', this.upn, function(err, user) {
-      if(err) return done(err);  
+      if(err) return done(err);
       assert.notEqual(null, user);
       assert.equal(this.upn, user.userPrincipalName);
       assert.equal('Matias Woloski', user.displayName);
+      assert.equal(undefined, user.groups);
       done();
     }.bind(this));
   });
@@ -76,21 +77,29 @@ function allQueryTests () {
 
   it('should get user with groups by arbitrary property', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
-    waad.getUserByProperty('userPrincipalName', this.upn, function(err, user) {
+    waad.getUserByProperty('userPrincipalName', this.upn, true, function(err, user) {
       assert.notEqual(null, user);
       assert.equal(this.upn, user.userPrincipalName);
       assert.equal('Matias Woloski', user.displayName);
+      assert.notEqual(undefined, user.groups);
+      ['Test Group', 'Company Administrator'].forEach(function (group) {
+        assert.equal(1, user.groups.filter(function(g){ return g.displayName === group; }).length, group);
+      });
       done();
     }.bind(this));
   });
 
   it('should get user with groups by arbitrary property with type Edm.Guid', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
-    waad.getUserByProperty('objectId', "9f7e9788-8081-4450-8d60-3b835aa2b54b", function(err, user) {
+    waad.getUserByProperty('objectId', "9f7e9788-8081-4450-8d60-3b835aa2b54b", true, function(err, user) {
       if (err) return done(err);
       assert.notEqual(null, user);
       assert.equal(this.upn, user.userPrincipalName);
       assert.equal('Matias Woloski', user.displayName);
+      assert.notEqual(undefined, user.groups);
+      ['Test Group', 'Company Administrator'].forEach(function (group) {
+        assert.equal(1, user.groups.filter(function(g){ return g.displayName === group; }).length, group);
+      });
       done();
     }.bind(this));
   });
