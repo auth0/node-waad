@@ -138,6 +138,10 @@ Fetch the list of groups the user belongs to. Parameters:
 -   **email** the email address of the requested user. 
 -   **callback** is a function with two arguments ```err``` and ```groups```.
 
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+
 ## License
 
 MIT - Auth0
