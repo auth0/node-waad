@@ -6,11 +6,11 @@ var assert = require('assert')
 
 describe('query graph api-version 1.0', function () {
   before(function(done) {
-    
-    this.tenant = config.WAAD_TENANTDOMAIN;
-    this.upn = 'matias@auth0waadtests.onmicrosoft.com';
 
-    auth.getAccessTokenWithClientCredentials2(config.WAAD_TENANTDOMAIN, config.WAAD_CLIENTID, config.WAAD_CLIENTSECRET, function(err, token) {
+    this.tenant = config.v2.WAAD_TENANTDOMAIN;
+    this.upn = config.v2.UPN;
+
+    auth.getAccessTokenWithClientCredentials2(config.v2.WAAD_TENANTDOMAIN, config.v2.WAAD_CLIENTID, config.v2.WAAD_CLIENTSECRET, function(err, token) {
       this.accessToken = token;
       done();
     }.bind(this));
@@ -24,9 +24,8 @@ function allQueryTests () {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
     waad.getUserByProperty('userPrincipalName', this.upn, function(err, user) {
       if(err) return done(err);
-      assert.notEqual(null, user);
       assert.equal(this.upn, user.userPrincipalName);
-      assert.equal('Matias Woloski', user.displayName);
+      assert.equal(config.user.displayName, user.displayName);
       assert.equal(undefined, user.groups);
       done();
     }.bind(this));
@@ -34,7 +33,7 @@ function allQueryTests () {
 
   it('should return null if user not found', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
-    waad.getUserByProperty('userPrincipalName', 'nonexising@auth10dev.onmicrosoft.com', function(err, user) {
+    waad.getUserByProperty('userPrincipalName', config.invalid_email, function(err, user) {
       assert.equal(null, user);
       done();
     });
@@ -42,7 +41,7 @@ function allQueryTests () {
 
   it('should fail if accessToken is wrong', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: 'foobarbazbarbiz'});
-    waad.getUserByProperty('userPrincipalName', 'nonexising@auth10dev.onmicrosoft.com', function(err) {
+    waad.getUserByProperty('userPrincipalName', config.invalid_email, function(err) {
       assert.notEqual(null, err);
       assert.equal('Authentication_MissingOrMalformed', JSON.parse(err.message)['odata.error'].code);
       done();
@@ -53,7 +52,7 @@ function allQueryTests () {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
     waad.getGroupsForUserByObjectIdOrUpn(this.upn, function(err, groups) {
       assert.notEqual(null, groups);
-      ['Test Group', 'Company Administrator'].forEach(function (group) {
+      config.user.groups.forEach(function (group) {
         assert.equal(1, groups.filter(function(g){ return g.displayName === group; }).length, group);
       });
       done();
@@ -70,19 +69,19 @@ function allQueryTests () {
       }.bind(this)).length;
 
       assert.equal(1, length);
-      
+
       done();
     }.bind(this));
   });
 
   it('should get user with groups by arbitrary property', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
-    waad.getUserByProperty('userPrincipalName', this.upn, true, function(err, user) {
+    waad.getUserByProperty('userPrincipalName', this.upn, { includeGroups: true}, function(err, user) {
       assert.notEqual(null, user);
       assert.equal(this.upn, user.userPrincipalName);
-      assert.equal('Matias Woloski', user.displayName);
+      assert.equal(config.user.displayName, user.displayName);
       assert.notEqual(undefined, user.groups);
-      ['Test Group', 'Company Administrator'].forEach(function (group) {
+      config.user.groups.forEach(function (group) {
         assert.equal(1, user.groups.filter(function(g){ return g.displayName === group; }).length, group);
       });
       done();
@@ -91,13 +90,28 @@ function allQueryTests () {
 
   it('should get user with groups by arbitrary property with type Edm.Guid', function (done) {
     var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
-    waad.getUserByProperty('objectId', "9f7e9788-8081-4450-8d60-3b835aa2b54b", true, function(err, user) {
+    waad.getUserByProperty('objectId', config.user.objectId, { includeGroups: true}, function(err, user) {
       if (err) return done(err);
       assert.notEqual(null, user);
       assert.equal(this.upn, user.userPrincipalName);
-      assert.equal('Matias Woloski', user.displayName);
+      assert.equal(config.user.displayName, user.displayName);
       assert.notEqual(undefined, user.groups);
-      ['Test Group', 'Company Administrator'].forEach(function (group) {
+      config.user.groups.forEach(function (group) {
+        assert.equal(1, user.groups.filter(function(g){ return g.displayName === group; }).length, group);
+      });
+      done();
+    }.bind(this));
+  });
+
+  it('should get user with all groups by arbitrary property with type Edm.Guid', function (done) {
+    var waad = new Waad({tenant: this.tenant, accessToken: this.accessToken});
+    waad.getUserByProperty('objectId', config.user.objectId, { includeGroups: true, includeNestedGroups: true }, function(err, user) {
+      if (err) return done(err);
+      assert.notEqual(null, user);
+      assert.equal(this.upn, user.userPrincipalName);
+      assert.equal(config.user.displayName, user.displayName);
+      assert.notEqual(undefined, user.groups);
+      config.user.allGroups.forEach(function (group) {
         assert.equal(1, user.groups.filter(function(g){ return g.displayName === group; }).length, group);
       });
       done();
