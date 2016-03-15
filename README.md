@@ -128,7 +128,7 @@ Fetch one user by the specified property. Parameters:
 -   **tenant** the id of the tenant.
 -   **propertyName** the name of the property.
 -   **propertyValue** the value of the property (match is exact).
--   **options** optional. Two properties supported. `includeGroups` set to true returns only the groups that the user is a direct member of. When also setting `includeNestedGroups` to true includes all the groups in the  ```user.groups``` property.
+-   **options** optional. Two properties supported. `includeGroups` set to true returns only the groups that the user is a direct member of in the  ```user.groups``` property.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
 ### getGroupsForUserByEmail(email, callback)
