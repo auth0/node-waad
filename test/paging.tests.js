@@ -9,12 +9,13 @@ function mapNames (u) { return u.DisplayName; }
 
 describe('query graph', function () {
   before(function(done) {
-    this.tenant = config.TENANTID;
-    this.mail = 'matias@auth10dev.onmicrosoft.com';
+    this.tenant = config.v1.TENANTID;
+    this.mail = config.user.email;
 
-    auth.getAccessToken(config.TENANTID, config.APPPRINCIPALID, config.SYMMETRICKEY, function(err, token) {
+    auth.getAccessToken(config.v1.TENANTID, config.v1.APPPRINCIPALID, config.v1.SYMMETRICKEY, function(err, token) {
+      if (err) return done(err);
       this.accessToken = token;
-      done(); 
+      done();
     }.bind(this));
   });
 
@@ -37,7 +38,7 @@ describe('query graph', function () {
 
       waad.getUsers({ top: 2, skiptoken: users.skiptoken }, function(err, users) {
         var secondPageNames = users.map(mapNames);
-        
+
         _.uniq(firstPageNames.concat(secondPageNames))
           .length.should.eql(4);
 
@@ -55,7 +56,7 @@ describe('query graph', function () {
 
       users.nextPage(function(err, users) {
         var secondPageNames = users.map(mapNames);
-        
+
         _.uniq(firstPageNames.concat(secondPageNames))
           .length.should.eql(4);
 
@@ -73,7 +74,7 @@ describe('query graph', function () {
         users.nextPage(function(err, users){
           users.hasMorePages.should.be.false;
           done();
-        });        
+        });
       });
 
     }.bind(this));

@@ -30,7 +30,7 @@ waad.getGraphClient10('auth10dev.onmicrosoft.com', 'client-id', 'client-secret',
 
 ### getUsers([options], callback)
 
-Fetch a list of all users. 
+Fetch a list of all users.
 
 **Callback** is a function with two arguments ```err``` and ```users```. Users is an array of user objects (paging not implemented, use v0.5)
 
@@ -38,28 +38,28 @@ Fetch a list of all users.
 
 Fetch one user by its email address. Parameters:
 
--   **email** the email address of the requested user. 
+-   **email** the email address of the requested user.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
 ### getUserByProperty(propertyName, propertyValue, callback)
 
 Fetch one user by the specified property. Parameters:
 
--   **propertyName** the name of the property. 
--   **propertyValue** the value of the property (match is exact). 
+-   **propertyName** the name of the property.
+-   **propertyValue** the value of the property (match is exact).
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
 ### getGroupsForUserByObjectIdOrUpn(objectIdOrUpn, callback)
 
 Fetch the list of groups the user belongs to. Parameters:
 
--   **objectIdOrUpn** the `objectId` or `userPrincipalName` of the user. 
+-   **objectIdOrUpn** the `objectId` or `userPrincipalName` of the user.
 -   **callback** is a function with two arguments ```err``` and ```groups```.
 
 
 ## How to Get a client ID and client secret
 
-Read this tutorial from Microsoft 
+Read this tutorial from Microsoft
 [Adding, Updating, and Removing an App](http://msdn.microsoft.com/en-us/library/windowsazure/dn132599.aspx)
 
 ### API version 0.5
@@ -98,7 +98,7 @@ waad.getGraphClientWithClientCredentials('auth10dev.onmicrosoft.com', 'myapp.com
 
 ### getUsers([options], callback)
 
-Fetch a list of all users. 
+Fetch a list of all users.
 
 **Callback** is a function with two arguments ```err``` and ```users```. Users is an array of user objects with few additional properties:
 
@@ -116,7 +116,7 @@ Fetch a list of all users.
 
 Fetch one user by its email address. Parameters:
 
--   **email** the email address of the requested user. 
+-   **email** the email address of the requested user.
 -   **includeGroups** optional (default ```false```) when set to true it will fetch the groups for the user and load them in the ```user.groups``` property.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
@@ -126,16 +126,16 @@ Fetch one user by the specified property. Parameters:
 
 -   **accessToken** a valid access token that you can obtain with the two afore mentioned methods.
 -   **tenant** the id of the tenant.
--   **propertyName** the name of the property. 
--   **propertyValue** the value of the property (match is exact). 
--   **includeGroups** optional (default ```false```) when set to true it will fetch the groups for the user and load them in the ```user.groups``` property.
+-   **propertyName** the name of the property.
+-   **propertyValue** the value of the property (match is exact).
+-   **options** optional. Two properties supported. `includeGroups` set to true returns only the groups that the user is a direct member of. When also setting `includeNestedGroups` to true includes all the groups in the  ```user.groups``` property.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
 ### getGroupsForUserByEmail(email, callback)
 
 Fetch the list of groups the user belongs to. Parameters:
 
--   **email** the email address of the requested user. 
+-   **email** the email address of the requested user.
 -   **callback** is a function with two arguments ```err``` and ```groups```.
 
 ## Issue Reporting
