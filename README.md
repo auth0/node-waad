@@ -41,12 +41,15 @@ Fetch one user by its email address. Parameters:
 -   **email** the email address of the requested user.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
-### getUserByProperty(propertyName, propertyValue, callback)
+### getUserByProperty(accessToken, tenant, propertyName, propertyValue, [includeGroups], callback)
 
 Fetch one user by the specified property. Parameters:
 
+-   **accessToken** a valid access token that you can obtain with the two afore mentioned methods.
+-   **tenant** the id of the tenant.
 -   **propertyName** the name of the property.
 -   **propertyValue** the value of the property (match is exact).
+-   **options** optional. Two properties supported. `includeGroups` set to true returns only the groups that the user is a direct member of. When also setting `includeNestedGroups` to true includes all the groups in the  ```user.groups``` property.  **Warning** when `includeGroups` is true an additional request will be made for every user. When `includeNestedGroups` is true an additional request will be made for every user.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
 ### getGroupsForUserByObjectIdOrUpn(objectIdOrUpn, callback)
@@ -108,7 +111,7 @@ Fetch a list of all users.
 
 **Options** has the following optional properties:
 
--   **includeGroups** optional (default ```false```) when set to true it will fetch the groups for each user and load them in the ```user.groups``` property. **Warning** when includeGroups is true an additional request will be made for every user.
+-   **options** optional. Two properties supported. `includeGroups` set to true returns only the groups that the user is a direct member of in the  ```user.groups``` property. **Warning** when includeGroups is true an additional request will be made for every user.
 -   **skiptoken** optional when set will fetch the next page of the result set.
 -   **top** the maximum amount of users we want for this query.
 
@@ -117,7 +120,7 @@ Fetch a list of all users.
 Fetch one user by its email address. Parameters:
 
 -   **email** the email address of the requested user.
--   **includeGroups** optional (default ```false```) when set to true it will fetch the groups for the user and load them in the ```user.groups``` property.
+-   **options** optional. Two properties supported. `includeGroups` set to true returns only the groups that the user is a direct member of in the  ```user.groups``` property. **Warning** when includeGroups is true an additional request will be made for every user.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
 ### getUserByProperty(accessToken, tenant, propertyName, propertyValue, [includeGroups], callback)
@@ -128,7 +131,7 @@ Fetch one user by the specified property. Parameters:
 -   **tenant** the id of the tenant.
 -   **propertyName** the name of the property.
 -   **propertyValue** the value of the property (match is exact).
--   **options** optional. Two properties supported. `includeGroups` set to true returns only the groups that the user is a direct member of in the  ```user.groups``` property.
+-   **options** optional. Two properties supported. `includeGroups` set to true returns only the groups that the user is a direct member of in the  ```user.groups``` property.  **Warning** when includeGroups is true an additional request will be made for every user.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
 ### getGroupsForUserByEmail(email, callback)
