@@ -41,7 +41,7 @@ Fetch one user by its email address. Parameters:
 -   **email** the email address of the requested user.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
-### getUserByProperty(accessToken, tenant, propertyName, propertyValue, [includeGroups], callback)
+### getUserByProperty(accessToken, tenant, propertyName, propertyValue, [options], callback)
 
 Fetch one user by the specified property. Parameters:
 
@@ -115,7 +115,7 @@ Fetch a list of all users.
 -   **skiptoken** optional when set will fetch the next page of the result set.
 -   **top** the maximum amount of users we want for this query.
 
-### getUserByEmail(email, [includeGroups], callback)
+### getUserByEmail(email, [options], callback)
 
 Fetch one user by its email address. Parameters:
 
@@ -123,7 +123,7 @@ Fetch one user by its email address. Parameters:
 -   **options** optional. Two properties supported. `includeGroups` set to true returns only the groups that the user is a direct member of in the  ```user.groups``` property. **Warning** when includeGroups is true an additional request will be made for every user.
 -   **callback** is a function with two arguments ```err``` and ```user```. It will always return 1 user or null.
 
-### getUserByProperty(accessToken, tenant, propertyName, propertyValue, [includeGroups], callback)
+### getUserByProperty(accessToken, tenant, propertyName, propertyValue, [options], callback)
 
 Fetch one user by the specified property. Parameters:
 
