@@ -20,7 +20,7 @@ var waad = require('node-waad');
 
 waad.getGraphClient10('auth10dev.onmicrosoft.com', 'client-id', 'client-secret', function(err, client) {
   // query the graph
-  client.getUserByMail('matias@auth10dev.onmicrosoft.com', function(err, user) {
+  client.getUserByEmail('matias@auth10dev.onmicrosoft.com', function(err, user) {
     // get user properties (user.displayName, user.mail, etc.)
   });
 });
