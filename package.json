@@ -1,6 +1,6 @@
 {
   "name": "node-waad",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "query windows azure active directory",
   "main": "./lib",
   "scripts": {
