@@ -28,20 +28,20 @@ module.exports = {
     TENANTID: config('V1_TENANTID'),
     APPPRINCIPALID: config('V1_APPPRINCIPALID'),
     SYMMETRICKEY: config('V1_SYMMETRICKEY'),
-    UPN: config('V1_UPN'),
+    UPN: config('V1_UPN')
   },
   // for waad v2 tests
   v2: {
     WAAD_TENANTDOMAIN: config('V2_WAAD_TENANTDOMAIN'),
     WAAD_CLIENTID: config('V2_WAAD_CLIENTID'),
     WAAD_CLIENTSECRET: config('V2_WAAD_CLIENTSECRET'),
-    UPN: config('V2_UPN'),
+    UPN: config('V2_UPN')
   },
   user: {
     objectId: config('USER_OBJECT_ID'),
     displayName : config('USER_DISPLAY_NAME'),
     groups: config('USER_GROUPS').split(','),
-    allGroups: config('USER_GROUPS').split(','),
+    allGroups: config('USER_GROUPS').split(',')
   },
   invalid_email: config('INVALID_EMAIL')
 };
