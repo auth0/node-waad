@@ -8,9 +8,10 @@
   },
   "repository": "https://github.com/auth0/node-waad",
   "devDependencies": {
+    "lodash": "~1.0.0-rc.3",
     "mocha": "*",
-    "should": "~1.2.1",
-    "lodash": "~1.0.0-rc.3"
+    "nconf": "^0.10.0",
+    "should": "~1.2.1"
   },
   "keywords": [
     "waad",
