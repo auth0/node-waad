@@ -1,24 +1,47 @@
+var nconf = require('nconf');
+
+var defaults = {
+  V1_TENANTID: '[tenant-id]',
+  V1_APPPRINCIPALID: '[app-principal-id]',
+  V1_SYMMETRICKEY: '[symmetric-key]',
+  V1_UPN: '[user-upn]',
+  V2_WAAD_TENANTDOMAIN: '[tenant-domain]',
+  V2_WAAD_CLIENTID: '[client-id]',
+  V2_WAAD_CLIENTSECRET: '[client-secret]',
+  V2_UPN: '[user-upn]',
+  USER_OBJECT_ID: '[user-object-id]',
+  USER_DISPLAY_NAME : '[user-display-name]',
+  USER_GROUPS: '[user-groups]',
+  INVALID_EMAIL: '[invalid-email]'
+};
+
+nconf
+  .env()
+  .file('./test/env.json')
+  .required(Object.keys(defaults)); // Require this file exist in order to run tests - fail hard and fast
+
+var config = nconf.get.bind(nconf);
+
 module.exports = {
-  // for v1 accesss_tokens tests
+  // for v1 access_tokens tests
   v1: {
-    TENANTID: process.env.TENANTID || '[tenant-id]',
-    APPPRINCIPALID: process.env.APPPRINCIPALID || '[app-principal-id]',
-    SYMMETRICKEY: process.env.SYMMETRICKEY || '[symmetric-key]',
-    UPN: '[user-upn]',
+    TENANTID: config('V1_TENANTID'),
+    APPPRINCIPALID: config('V1_APPPRINCIPALID'),
+    SYMMETRICKEY: config('V1_SYMMETRICKEY'),
+    UPN: config('V1_UPN'),
   },
   // for waad v2 tests
   v2: {
-    WAAD_TENANTDOMAIN: process.env.WAAD_TENANTDOMAIN || '[tenant-domain]',
-    WAAD_CLIENTID: process.env.WAAD_CLIENTID || '[client-id]',
-    WAAD_CLIENTSECRET: process.env.WAAD_CLIENTSECRET || '[client-secret]',
-    UPN: '[user-upn]',
+    WAAD_TENANTDOMAIN: config('V2_WAAD_TENANTDOMAIN'),
+    WAAD_CLIENTID: config('V2_WAAD_CLIENTID'),
+    WAAD_CLIENTSECRET: config('V2_WAAD_CLIENTSECRET'),
+    UPN: config('V2_UPN'),
   },
   user: {
-    objectId: '[sample-user-object-id]',
-    displayName : '[sample-user-display-name]',
-    groups: ['[sample-user-direct-groups]'],
-    allGroups: ['[sample-user-groups]']
+    objectId: config('USER_OBJECT_ID'),
+    displayName : config('USER_DISPLAY_NAME'),
+    groups: config('USER_GROUPS').split(','),
+    allGroups: config('USER_GROUPS').split(','),
   },
-
-  invalid_email: '[invalid-user]',
+  invalid_email: config('INVALID_EMAIL')
 };
