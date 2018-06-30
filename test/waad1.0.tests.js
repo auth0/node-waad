@@ -4,6 +4,62 @@ var assert = require('assert')
   , config = require('./config');
 
 
+describe('setting maximum groups to retrieve', function() {
+  // Explicitly call out this sketchy action
+  // Forwarding internal params to mock
+  var mockObjectUnderTest = function(obj) {
+    obj.__request = function(params, cb) {
+      cb(params);
+    };
+  };
+
+  it('defaults to 250 if unset', function(done) {
+    var waad = new Waad({
+      tenant: config.v2.WAAD_TENANTDOMAIN,
+      accessToken: 'abc123'
+    });
+
+    mockObjectUnderTest(waad);
+
+    waad.getGroupsForUserByObjectIdOrUpn('foo@example.com', function(mockParams) {
+      assert.equal(mockParams.qs.$top, 250);
+      done();
+    });
+  });
+
+  it('will pass the group max to the api', function(done) {
+    var waad = new Waad({
+      tenant: config.v2.WAAD_TENANTDOMAIN,
+      accessToken: 'abc123',
+      maxGroupsToRetrieve: 555
+    });
+
+    mockObjectUnderTest(waad);
+
+    waad.getGroupsForUserByObjectIdOrUpn('foo@example.com', function(mockParams) {
+      assert.equal(mockParams.qs.$top, 555);
+      done();
+    });
+  });
+
+  it('will pass the group max to the api with nested user groups', function(done) {
+    var waad = new Waad({
+      tenant: config.v2.WAAD_TENANTDOMAIN,
+      accessToken: 'abc123',
+      includeNestedGroups: true,
+      maxGroupsToRetrieve: 555
+    });
+
+    mockObjectUnderTest(waad);
+
+    waad.getGroupsForUserByObjectIdOrUpn('foo@example.com', function(mockParams) {
+      assert.equal(mockParams.qs.$top, 555);
+      done();
+    });
+  });
+});
+
+
 describe('query graph api-version 1.0', function () {
   before(function(done) {
 
