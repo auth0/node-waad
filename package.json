@@ -1,6 +1,6 @@
 {
   "name": "node-waad",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "query windows azure active directory",
   "main": "./lib",
   "scripts": {
@@ -11,6 +11,7 @@
     "lodash": "~1.0.0-rc.3",
     "mocha": "*",
     "nconf": "^0.10.0",
+    "nock": "^10.0.1",
     "should": "~1.2.1"
   },
   "keywords": [
