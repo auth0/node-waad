@@ -8,7 +8,7 @@
   },
   "repository": "https://github.com/auth0/node-waad",
   "devDependencies": {
-    "lodash": "~1.0.0-rc.3",
+    "lodash": "^4.17.11",
     "mocha": "*",
     "nconf": "^0.10.0",
     "nock": "^10.0.1",
@@ -21,10 +21,10 @@
   "author": "Matias Woloski",
   "license": "MIT",
   "dependencies": {
-    "request": "^2.74.0",
-    "jwt-simple": "~0.5.1",
-    "moment": "~2.18.1",
     "async": "~0.1.22",
+    "jwt-simple": "~0.5.1",
+    "moment": "^2.24.0",
+    "request": "^2.74.0",
     "xtend": "~1.0.3"
   }
 }
