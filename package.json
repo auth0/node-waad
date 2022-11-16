@@ -21,7 +21,7 @@
   "author": "Matias Woloski",
   "license": "MIT",
   "dependencies": {
-    "async": "~0.1.22",
+    "async": "~0.9.2",
     "jwt-simple": "~0.5.1",
     "moment": "^2.19.3",
     "request": "^2.74.0",
