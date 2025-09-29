@@ -1,8 +1,11 @@
 {
   "name": "node-waad",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "description": "query windows azure active directory",
   "main": "./lib",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "test": "mocha -t 10000 -R spec --require should"
   },
@@ -11,7 +14,7 @@
     "lodash": "^4.17.12",
     "mocha": "*",
     "nconf": "^0.10.0",
-    "nock": "^10.0.1",
+    "nock": "^14.0.10",
     "should": "~1.2.1"
   },
   "keywords": [
@@ -24,7 +27,6 @@
     "async": "~0.1.22",
     "jwt-simple": "~0.5.1",
     "moment": "^2.19.3",
-    "request": "^2.74.0",
     "xtend": "~1.0.3"
   }
 }
