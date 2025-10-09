@@ -10,6 +10,23 @@ var GraphClient10 = require('../lib/waad10');
 describe('Error handling compatibility', function() {
   this.timeout(10000);
 
+  /**
+   * Helper function to validate error format
+   */
+  function validateErrorFormat(err, user, clientType) {
+    assert.ok(err, 'Expected an error to be returned for ' + clientType);
+    assert.equal(user, undefined, 'User should be undefined when error occurs for ' + clientType);
+    
+    // Error message should be a JSON string, not [object Object]
+    assert.notEqual(err.message, '[object Object]', 
+      'Error message should not be [object Object] for ' + clientType);
+    
+    // Verify error message has meaningful content
+    assert.ok(err.message.length > 0, 'Error message should not be empty for ' + clientType);
+    
+    return err;
+  }
+
   it('should preserve JSON error message format for GraphClient10', function(done) {
     // Create a GraphClient10 with invalid credentials to trigger an error
     var client = new GraphClient10({
@@ -17,27 +34,17 @@ describe('Error handling compatibility', function() {
       accessToken: 'invalid-token'
     });
 
-    // This should fail and return a properly formatted error
     client.getUserByUpn('test@test.com', function(err, user) {
-      // Should get an error
-      assert.ok(err);
-      assert.equal(user, undefined);
+      var validatedErr = validateErrorFormat(err, user, 'GraphClient10');
       
-      // Error message should be a JSON string, not [object Object]
-      assert.notEqual(err.message, '[object Object]');
-      
-      // If it's a valid JSON error from Azure AD, it should contain "odata.error"
-      if (err.message.includes('odata.error')) {
-        console.log('✅ Error format preserved:', err.message.substring(0, 100) + '...');
+      // If it's a valid JSON error from Azure AD, verify it's properly formatted
+      if (validatedErr.message.includes('odata.error')) {
         try {
-          var parsedError = JSON.parse(err.message);
-          assert.ok(parsedError['odata.error']);
-          console.log('✅ Error is valid JSON with odata.error structure');
+          var parsedError = JSON.parse(validatedErr.message);
+          assert.ok(parsedError['odata.error'], 'Error should contain odata.error structure');
         } catch (parseErr) {
-          console.log('❌ Error message is not valid JSON:', err.message);
+          assert.fail('Error message should be valid JSON when containing odata.error');
         }
-      } else {
-        console.log('ℹ️  Different error type (expected for invalid test credentials):', err.message);
       }
       
       done();
@@ -51,17 +58,8 @@ describe('Error handling compatibility', function() {
       accessToken: 'invalid-token'
     });
 
-    // This should fail and return a properly formatted error
     client.getUserByProperty('UserPrincipalName', 'test@test.com', function(err, user) {
-      // Should get an error
-      assert.ok(err);
-      assert.equal(user, undefined);
-      
-      // Error message should be a JSON string, not [object Object]
-      assert.notEqual(err.message, '[object Object]');
-      
-      console.log('✅ GraphClient error format preserved:', err.message.substring(0, 100) + '...');
-      
+      validateErrorFormat(err, user, 'GraphClient');
       done();
     });
   });
