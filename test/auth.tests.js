@@ -1,5 +1,5 @@
 var assert = require('assert')
-  , auth = require("../lib/auth")
+  , auth = require('../lib/auth')
   , config = require('./config');
 
 describe('login to waad', function () {

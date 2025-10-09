@@ -45,7 +45,7 @@ describe('HTTP Client (fetch wrapper)', function() {
 
     httpClient('https://api.example.com/test', function(err, response, body) {
       if (err) return done(err);
-      
+
       assert.equal(response.statusCode, 200);
       assert.ok(body);
       assert.equal(body.message, 'success');
@@ -69,7 +69,7 @@ describe('HTTP Client (fetch wrapper)', function() {
 
     httpClient.post(options.url, options, function(err, response, body) {
       if (err) return done(err);
-      
+
       assert.equal(response.statusCode, 200);
       assert.ok(body);
       scope.done();
@@ -92,7 +92,7 @@ describe('HTTP Client (fetch wrapper)', function() {
 
     httpClient.post(options.url, options, function(err, response, body) {
       if (err) return done(err);
-      
+
       assert.equal(response.statusCode, 200);
       assert.ok(body);
       scope.done();
@@ -116,7 +116,7 @@ describe('HTTP Client (fetch wrapper)', function() {
 
     httpClient(options, function(err, response, body) {
       if (err) return done(err);
-      
+
       assert.equal(response.statusCode, 200);
       assert.equal(body.query_received, 'ok');
       scope.done();
@@ -144,7 +144,7 @@ describe('HTTP Client (fetch wrapper)', function() {
 
     httpClient(options, function(err, response, body) {
       if (err) return done(err);
-      
+
       assert.equal(response.statusCode, 200);
       assert.equal(body.headers_received, 'ok');
       scope.done();

@@ -1,6 +1,6 @@
 var assert = require('assert')
-  , auth = require("../lib/auth")
-  , Waad = require("../lib/waad")
+  , auth = require('../lib/auth')
+  , Waad = require('../lib/waad')
   , config = require('./config')
   , _ = require('lodash');
 

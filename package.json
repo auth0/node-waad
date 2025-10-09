@@ -7,10 +7,13 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "test": "mocha -t 10000 -R spec --require should"
+    "test": "mocha -t 10000 -R spec --require should",
+    "lint": "eslint lib test --fix",
+    "lint-check": "eslint lib test"
   },
   "repository": "https://github.com/auth0/node-waad",
   "devDependencies": {
+    "eslint": "^8.57.1",
     "lodash": "^4.17.12",
     "mocha": "*",
     "nconf": "^0.10.0",

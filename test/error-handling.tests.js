@@ -3,7 +3,6 @@
  */
 
 var assert = require('assert');
-var waad = require('../lib');
 var GraphClient = require('../lib/waad');
 var GraphClient10 = require('../lib/waad10');
 
@@ -16,14 +15,14 @@ describe('Error handling compatibility', function() {
   function validateErrorFormat(err, user, clientType) {
     assert.ok(err, 'Expected an error to be returned for ' + clientType);
     assert.equal(user, undefined, 'User should be undefined when error occurs for ' + clientType);
-    
+
     // Error message should be a JSON string, not [object Object]
-    assert.notEqual(err.message, '[object Object]', 
+    assert.notEqual(err.message, '[object Object]',
       'Error message should not be [object Object] for ' + clientType);
-    
+
     // Verify error message has meaningful content
     assert.ok(err.message.length > 0, 'Error message should not be empty for ' + clientType);
-    
+
     return err;
   }
 
@@ -36,7 +35,7 @@ describe('Error handling compatibility', function() {
 
     client.getUserByUpn('test@test.com', function(err, user) {
       var validatedErr = validateErrorFormat(err, user, 'GraphClient10');
-      
+
       // If it's a valid JSON error from Azure AD, verify it's properly formatted
       if (validatedErr.message.includes('odata.error')) {
         try {
@@ -46,13 +45,13 @@ describe('Error handling compatibility', function() {
           assert.fail('Error message should be valid JSON when containing odata.error');
         }
       }
-      
+
       done();
     });
   });
 
   it('should preserve JSON error message format for GraphClient', function(done) {
-    // Create a GraphClient with invalid credentials to trigger an error  
+    // Create a GraphClient with invalid credentials to trigger an error
     var client = new GraphClient({
       tenant: 'test.onmicrosoft.com',
       accessToken: 'invalid-token'

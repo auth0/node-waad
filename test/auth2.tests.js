@@ -13,7 +13,7 @@ describe('login to waad', function () {
   var parseError = new Error(message);
 
   parseError.name = 'waad_parse_error';
-  parseError.stack = 'Error stack'
+  parseError.stack = 'Error stack';
   parseError.body = { error: 'body' };
 
   var tenantId = config.v1.TENANTID;

@@ -1,6 +1,6 @@
 var assert = require('assert')
-  , auth = require("../lib/auth")
-  , Waad = require("../lib/waad")
+  , auth = require('../lib/auth')
+  , Waad = require('../lib/waad')
   , config = require('./config');
 
 
@@ -10,7 +10,7 @@ describe('query graph', function () {
     this.upn = config.v1.UPN;
 
     auth.getAccessToken(config.v1.TENANTID, config.v1.APPPRINCIPALID, config.v1.SYMMETRICKEY, function(err, token) {
-      if (err) return done(err)
+      if (err) return done(err);
       this.accessToken = token;
       done();
     }.bind(this));

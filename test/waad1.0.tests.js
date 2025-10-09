@@ -1,9 +1,9 @@
-var assert = require("assert"),
-  auth = require("../lib/auth"),
-  Waad = require("../lib/waad10"),
-  config = require("./config");
+var assert = require('assert'),
+  auth = require('../lib/auth'),
+  Waad = require('../lib/waad10'),
+  config = require('./config');
 
-describe("setting maximum groups to retrieve", function () {
+describe('setting maximum groups to retrieve', function () {
   // Explicitly call out this sketchy action
   // Forwarding internal params to mock
   var mockObjectUnderTest = function (obj) {
@@ -12,15 +12,15 @@ describe("setting maximum groups to retrieve", function () {
     };
   };
 
-  it("defaults to 250 if unset", function (done) {
+  it('defaults to 250 if unset', function (done) {
     var waad = new Waad({
       tenant: config.v2.WAAD_TENANTDOMAIN,
-      accessToken: "abc123",
+      accessToken: 'abc123',
     });
 
     mockObjectUnderTest(waad);
 
-    waad.getGroupsForUserByObjectIdOrUpn("foo@example.com", function (
+    waad.getGroupsForUserByObjectIdOrUpn('foo@example.com', function (
       mockParams
     ) {
       assert.equal(mockParams.qs.$top, 250);
@@ -28,16 +28,16 @@ describe("setting maximum groups to retrieve", function () {
     });
   });
 
-  it("will pass the group max to the api", function (done) {
+  it('will pass the group max to the api', function (done) {
     var waad = new Waad({
       tenant: config.v2.WAAD_TENANTDOMAIN,
-      accessToken: "abc123",
+      accessToken: 'abc123',
       maxGroupsToRetrieve: 555,
     });
 
     mockObjectUnderTest(waad);
 
-    waad.getGroupsForUserByObjectIdOrUpn("foo@example.com", function (
+    waad.getGroupsForUserByObjectIdOrUpn('foo@example.com', function (
       mockParams
     ) {
       assert.equal(mockParams.qs.$top, 555);
@@ -45,17 +45,17 @@ describe("setting maximum groups to retrieve", function () {
     });
   });
 
-  it("will pass the group max to the api with nested user groups", function (done) {
+  it('will pass the group max to the api with nested user groups', function (done) {
     var waad = new Waad({
       tenant: config.v2.WAAD_TENANTDOMAIN,
-      accessToken: "abc123",
+      accessToken: 'abc123',
       includeNestedGroups: true,
       maxGroupsToRetrieve: 555,
     });
 
     mockObjectUnderTest(waad);
 
-    waad.getGroupsForUserByObjectIdOrUpn("foo@example.com", function (
+    waad.getGroupsForUserByObjectIdOrUpn('foo@example.com', function (
       mockParams
     ) {
       assert.equal(mockParams.qs.$top, 555);
@@ -64,7 +64,7 @@ describe("setting maximum groups to retrieve", function () {
   });
 });
 
-describe("query graph api-version 1.0", function () {
+describe('query graph api-version 1.0', function () {
   before(function (done) {
     this.tenant = config.v2.WAAD_TENANTDOMAIN;
     this.upn = config.v2.UPN;
@@ -84,10 +84,10 @@ describe("query graph api-version 1.0", function () {
 });
 
 function allQueryTests() {
-  it("should get user by upn", function (done) {
+  it('should get user by upn', function (done) {
     var waad = new Waad({ tenant: this.tenant, accessToken: this.accessToken });
     waad.getUserByProperty(
-      "userPrincipalName",
+      'userPrincipalName',
       this.upn,
       function (err, user) {
         if (err) return done(err);
@@ -99,7 +99,7 @@ function allQueryTests() {
     );
   });
 
-  it("should get user by upn (single user query)", function (done) {
+  it('should get user by upn (single user query)', function (done) {
     var waad = new Waad({ tenant: this.tenant, accessToken: this.accessToken });
     waad.getSingleUserByUpn(
       this.upn,
@@ -113,9 +113,9 @@ function allQueryTests() {
     );
   });
 
-  it("should return null if user not found", function (done) {
+  it('should return null if user not found', function (done) {
     var waad = new Waad({ tenant: this.tenant, accessToken: this.accessToken });
-    waad.getUserByProperty("userPrincipalName", config.invalid_email, function (
+    waad.getUserByProperty('userPrincipalName', config.invalid_email, function (
       err,
       user
     ) {
@@ -124,24 +124,24 @@ function allQueryTests() {
     });
   });
 
-  it("should fail if accessToken is wrong", function (done) {
+  it('should fail if accessToken is wrong', function (done) {
     var waad = new Waad({
       tenant: this.tenant,
-      accessToken: "foobarbazbarbiz",
+      accessToken: 'foobarbazbarbiz',
     });
-    waad.getUserByProperty("userPrincipalName", config.invalid_email, function (
+    waad.getUserByProperty('userPrincipalName', config.invalid_email, function (
       err
     ) {
       assert.notEqual(null, err);
       assert.equal(
-        "Authentication_MissingOrMalformed",
-        JSON.parse(err.message)["odata.error"].code
+        'Authentication_MissingOrMalformed',
+        JSON.parse(err.message)['odata.error'].code
       );
       done();
     });
   });
 
-  it("should get groups by user upn", function (done) {
+  it('should get groups by user upn', function (done) {
     var waad = new Waad({ tenant: this.tenant, accessToken: this.accessToken });
     waad.getGroupsForUserByObjectIdOrUpn(this.upn, function (err, groups) {
       assert.notEqual(null, groups);
@@ -158,7 +158,7 @@ function allQueryTests() {
     });
   });
 
-  it("can get all users", function (done) {
+  it('can get all users', function (done) {
     var waad = new Waad({ tenant: this.tenant, accessToken: this.accessToken });
     waad.getUsers(
       function (err, users) {
@@ -177,10 +177,10 @@ function allQueryTests() {
     );
   });
 
-  it("should get user with groups by arbitrary property", function (done) {
+  it('should get user with groups by arbitrary property', function (done) {
     var waad = new Waad({ tenant: this.tenant, accessToken: this.accessToken });
     waad.getUserByProperty(
-      "userPrincipalName",
+      'userPrincipalName',
       this.upn,
       { includeGroups: true },
       function (err, user) {
@@ -202,10 +202,10 @@ function allQueryTests() {
     );
   });
 
-  it("should get user with groups by arbitrary property with type Edm.Guid", function (done) {
+  it('should get user with groups by arbitrary property with type Edm.Guid', function (done) {
     var waad = new Waad({ tenant: this.tenant, accessToken: this.accessToken });
     waad.getUserByProperty(
-      "objectId",
+      'objectId',
       config.user.objectId,
       { includeGroups: true },
       function (err, user) {
@@ -228,10 +228,10 @@ function allQueryTests() {
     );
   });
 
-  it("should get user with all groups by arbitrary property with type Edm.Guid", function (done) {
+  it('should get user with all groups by arbitrary property with type Edm.Guid', function (done) {
     var waad = new Waad({ tenant: this.tenant, accessToken: this.accessToken });
     waad.getUserByProperty(
-      "objectId",
+      'objectId',
       config.user.objectId,
       { includeGroups: true, includeNestedGroups: true },
       function (err, user) {
